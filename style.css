@@ -1,0 +1,1273 @@
+:root {
+  --cor-tema: cyan;
+  --cor-texto: aquamarine;
+  --cor-botao: cyan;
+  --cor-painel: rgba(0, 0, 0, 0.72);
+  --cor-borda: cyan;
+  --sombra-tema: rgba(0, 255, 255, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  background: #000;
+  color: var(--cor-texto);
+  transition: color 0.4s ease;
+}
+
+.app {
+  min-height: 100vh;
+  position: relative;
+}
+
+.tela {
+  display: none;
+  min-height: 100vh;
+  padding: clamp(24px, 6vw, 60px) clamp(12px, 4vw, 20px);
+  animation: fadeEntrada 0.5s ease;
+}
+
+.tela.ativa {
+  display: flex;
+}
+
+#telaInicial {
+  align-items: center;
+  justify-content: center;
+}
+
+.card-inicial {
+  position: relative;
+  z-index: 2;
+}
+
+.container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.card-inicial,
+.painel {
+  background: var(--cor-painel);
+  border: 2px solid var(--cor-borda);
+  border-radius: 14px;
+  box-shadow: 0 0 14px var(--sombra-tema);
+  transition:
+    border-color 0.4s ease,
+    box-shadow 0.4s ease,
+    background 0.4s ease;
+}
+
+.card-inicial {
+  width: 100%;
+  max-width: 600px;
+  padding: 10px;
+  text-align: center;
+}
+
+.painel {
+  padding: clamp(14px, 3vw, 18px);
+  margin-bottom: 18px;
+}
+
+.topo {
+  margin-top: 10px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Arial Black", Arial, sans-serif;
+  margin-top: 0;
+}
+
+.card-inicial h1 {
+  font-size: clamp(2rem, 6vw, 2.5rem);
+  margin-bottom: 14px;
+}
+
+.subtexto {
+  font-size: 1.2rem;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+input,
+textarea,
+select,
+button {
+  width: 100%;
+  max-width: 100%;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-size: 1.1rem;
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+}
+
+input,
+textarea,
+select {
+  margin-top: 10px;
+  background: var(--cor-botao);
+  color: var(--cor-botao-texto);
+}
+
+.grupo-campo {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 26px;
+}
+
+.grupo-campo h2 {
+  margin: 0;
+}
+
+#dataCelebracao,
+#mesCelebracao,
+#horaCelebracao,
+#localCelebracao,
+#missaComBispo {
+  min-height: 58px;
+  line-height: 1.2;
+}
+
+textarea {
+  width: 490px;
+  max-width: calc(100% - 12px);
+
+  min-height: 180px;
+  padding: 14px 16px;
+  border-radius: 14px;
+
+  display: block;
+  margin-left: 0;
+
+  resize: vertical;
+}
+
+button {
+  margin-top: 12px;
+  background: var(--cor-botao);
+  color: var(--cor-botao-texto);
+  cursor: pointer;
+  font-family: "Arial Black", Arial, sans-serif;
+  border: 2px solid transparent;
+  opacity: 0.85;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease,
+    border-color 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  opacity: 1;
+  border-color: var(--cor-tema);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+}
+
+button:active {
+  transform: translateY(-2px) scale(0.96);
+}
+
+button:focus-visible {
+  outline: none;
+}
+
+button.ativo {
+  outline: 3px solid var(--cor-tema);
+  outline-offset: 3px;
+}
+
+.botoes-grupo,
+.botoes-acao {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.botoes-grupo button,
+.botoes-acao button {
+  flex: 1;
+  min-width: 180px;
+}
+
+#missaComBispo {
+  margin-bottom: 40px;
+}
+
+#funcoes,
+#resultado ol {
+  padding-left: 22px;
+}
+
+#funcoes,
+#resultado,
+#resumoData,
+#resumoLocal,
+#resumoHora,
+#resumoTipoMissa,
+#resumoBispo,
+#resumoClasse,
+#infoLiturgia,
+#infoCor,
+#infoSignificado {
+  line-height: 1.7;
+}
+
+#resultado li {
+  margin-bottom: 10px;
+}
+
+#historicoAnterior,
+#jsonGerado {
+  margin-top: 14px;
+}
+
+#jsonGerado {
+  min-height: 220px;
+}
+
+.badge-beta {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: aquamarine;
+  padding: 20px;
+  font-size: 12px;
+  border-radius: 5px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.btn-voltar-topo {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+
+  width: 48px;
+  height: 48px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: var(--cor-botao);
+  color: var(--cor-botao-texto);
+
+  cursor: pointer;
+}
+
+.btn-voltar-topo:hover {
+  transform: scale(1.08);
+  opacity: 1;
+}
+
+@keyframes fadeEntrada {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* TEMAS LITÚRGICOS */
+
+body.tema-verde {
+  --cor-tema: #00d26a;
+  --cor-texto: #8fffd0;
+  --cor-botao: #00d26a;
+  --cor-borda: #00d26a;
+  --sombra-tema: rgba(0, 210, 106, 0.18);
+}
+
+body.tema-vermelho {
+  --cor-tema: #ff3b3b;
+  --cor-texto: #ffb3b3;
+  --cor-botao: #ff3b3b;
+  --cor-borda: #ff3b3b;
+  --sombra-tema: rgba(255, 59, 59, 0.2);
+}
+
+body.tema-roxo {
+  --cor-tema: #a855f7;
+  --cor-texto: #ddb3ff;
+  --cor-botao: #a855f7;
+  --cor-botao-texto: #fff;
+  --cor-borda: #a855f7;
+  --sombra-tema: rgba(168, 85, 247, 0.22);
+}
+
+body.tema-branco {
+  --cor-tema: #d9d9d9;
+  --cor-texto: #111;
+  --cor-botao: #fff;
+  --cor-painel: rgba(255, 255, 255, 0.87);
+  --cor-borda: #d9d9d9;
+  --sombra-tema: rgba(180, 180, 180, 0.2);
+}
+
+body.tema-rosa {
+  --cor-tema: #ff6fe5;
+  --cor-texto: #ffd1e6;
+  --cor-botao: #ff6fa8;
+  --cor-borda: #ff0368;
+  --sombra-tema: rgb(255, 0, 187);
+}
+
+body.tema-preto {
+  --cor-tema: #666;
+  --cor-texto: #e0e0e0;
+  --cor-botao: #2b2b2b;
+  --cor-botao-texto: #fff;
+  --cor-borda: #666;
+  --sombra-tema: rgba(180, 180, 180, 0.15);
+}
+
+body.tema-dourado {
+  --cor-tema: #d4af37;
+  --cor-texto: #ffe9a8;
+  --cor-botao: #d4af37;
+  --cor-borda: #d4af37;
+  --sombra-tema: rgba(212, 175, 55, 0.25);
+}
+
+.escala-mensal {
+  display: grid;
+  gap: 18px;
+}
+
+.dia-escala {
+  border-radius: 14px;
+  padding: 14px;
+  overflow: hidden;
+}
+
+.cabecalho-dia-escala {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.cabecalho-dia-escala div {
+  display: grid;
+  gap: 4px;
+}
+
+.cabecalho-dia-escala span,
+.liturgia-dia-escala {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.liturgia-dia-escala {
+  margin: 0 0 14px;
+}
+
+.pastoral-escala {
+  margin-top: 14px;
+  overflow-x: auto;
+}
+
+.pastoral-escala h3 {
+  margin-bottom: 8px;
+}
+
+.tabela-escala {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 420px;
+  font-size: 0.95rem;
+}
+
+.tabela-escala th,
+.tabela-escala td {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  padding: 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.tabela-escala th {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.cor-escala-verde {
+  background: #2e7d32;
+}
+
+.cor-escala-vermelho {
+  background: #b71c1c;
+}
+
+.cor-escala-roxo {
+  background: #6a1b9a;
+}
+
+.cor-escala-rosa {
+  background: #c2185b;
+}
+
+.cor-escala-preto {
+  background: #222;
+}
+
+.cor-escala-dourado {
+  background: #b8860b;
+}
+
+.cor-escala-branco,
+.cor-escala-sem-cor {
+  background: #f5f5f5;
+  color: #111;
+}
+
+@media (max-width: 760px) {
+  .item-escala {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 760px) {
+  .tela {
+    padding: 24px 12px;
+    align-items: flex-start;
+  }
+
+  .container {
+    max-width: 100%;
+  }
+
+  .painel {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .card-inicial h1 {
+    font-size: clamp(2.2rem, 12vw, 3.4rem);
+    line-height: 1.15;
+  }
+
+  .subtexto {
+    font-size: 1.05rem;
+    line-height: 1.45;
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    max-width: 100%;
+    font-size: 1rem;
+    padding: 14px 16px;
+  }
+
+  .grupo-campo {
+    margin-bottom: 30px;
+  }
+
+  .painel h2 {
+    font-size: clamp(1.45rem, 6vw, 2.1rem);
+    line-height: 1.15;
+  }
+
+  #dataCelebracao,
+  #mesCelebracao,
+  #horaCelebracao,
+  #localCelebracao,
+  #missaComBispo {
+    min-height: 60px;
+  }
+
+  #dataCelebracao {
+    min-width: 0;
+  }
+
+  .botoes-grupo,
+  .botoes-acao {
+    flex-direction: column;
+  }
+
+  .botoes-grupo button,
+  .botoes-acao button {
+    min-width: 100%;
+  }
+
+  .badge-beta {
+    display: none;
+  }
+
+  #telaInicial {
+    padding: 24px 12px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-voltar-topo {
+    display: none;
+  }
+
+  #btnIniciar {
+    margin-top: 24px;
+  }
+}
+/* AJUSTE FINAL MOBILE - CAMPOS DA TELA 2 */
+@media (max-width: 760px) {
+  #telaConfiguracao {
+    overflow-x: hidden;
+  }
+
+  #telaConfiguracao .painel {
+    overflow: hidden;
+  }
+
+  #telaConfiguracao .grupo-campo {
+    width: 100%;
+    min-width: 0;
+  }
+
+  #dataCelebracao,
+  #mesCelebracao,
+  #horaCelebracao,
+  #localCelebracao,
+  #missaComBispo {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    display: block;
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  #dataCelebracao,
+  #horaCelebracao {
+    text-align: center;
+  }
+
+  #localCelebracao,
+  #missaComBispo {
+    text-overflow: ellipsis;
+  }
+}
+/* PLACEHOLDER VISUAL PARA DATE E TIME */
+input[type="date"]:not(:valid),
+input[type="time"]:not(:valid) {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+/* CENTRALIZA TEXTO */
+#dataCelebracao,
+#mesCelebracao,
+#horaCelebracao,
+#localCelebracao,
+#missaComBispo {
+  text-align: center;
+  text-align-last: center;
+}
+
+/* ESTADO "SELECIONE" PARA DATE E TIME */
+input.vazio {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+/* quando o usuário selecionar, volta ao normal */
+input:not(.vazio) {
+  color: var(--cor-botao-texto);
+}
+
+/* PLACEHOLDER MOBILE PARA DATE E TIME */
+@media (max-width: 760px) {
+  #dataCelebracao.vazio,
+  #mesCelebracao.vazio,
+  #horaCelebracao.vazio {
+    color: transparent;
+    position: relative;
+  }
+
+  #mesCelebracao.vazio::-webkit-datetime-edit {
+    color: transparent;
+  }
+
+  #mesCelebracao:not(.vazio)::-webkit-datetime-edit {
+    color: var(--cor-botao-texto);
+  }
+
+  #dataCelebracao.vazio::before,
+  #mesCelebracao.vazio::before,
+  #horaCelebracao.vazio::before {
+    content: attr(data-placeholder);
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  #dataCelebracao:not(.vazio),
+  #mesCelebracao:not(.vazio),
+  #horaCelebracao:not(.vazio) {
+    color: var(--cor-botao-texto);
+  }
+  body.tema-branco #dataCelebracao.vazio::before,
+  body.tema-branco #mesCelebracao.vazio::before,
+  body.tema-branco #horaCelebracao.vazio::before {
+    color: #1f2933;
+  }
+  body.tema-branco #horaCelebracao.vazio::before {
+    color: rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* CENTRALIZAÇÃO CORRETA (SEM QUEBRAR INPUT) */
+@media (max-width: 760px) {
+  #dataCelebracao,
+  #mesCelebracao,
+  #horaCelebracao {
+    text-align: center;
+    text-align-last: center;
+    padding-left: 0;
+    padding-right: 0;
+    position: relative;
+  }
+
+  #dataCelebracao.vazio::before,
+  #mesCelebracao.vazio::before,
+  #horaCelebracao.vazio::before {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    transform: none;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  #mesCelebracao.vazio::-webkit-datetime-edit,
+  #mesCelebracao.vazio::-webkit-datetime-edit-fields-wrapper,
+  #mesCelebracao.vazio::-webkit-datetime-edit-year-field,
+  #mesCelebracao.vazio::-webkit-datetime-edit-month-field,
+  #mesCelebracao.vazio::-webkit-datetime-edit-text {
+    color: transparent;
+  }
+}
+
+/* PADRÃO ÚNICO PARA BOTÕES E CAMPOS CLICÁVEIS */
+button,
+input[type="date"],
+input[type="time"],
+input[type="month"],
+select,
+#mesCelebracao {
+  width: 100%;
+  min-height: 58px;
+  display: block;
+
+  border: 2px solid transparent;
+  border-radius: 14px;
+
+  background: var(--cor-botao);
+  color: var(--cor-botao-texto);
+
+  padding: 14px 16px;
+  font-size: 1.1rem;
+  font-family: "Arial Black", Arial, sans-serif;
+  font-weight: 700;
+
+  text-align: center;
+  text-align-last: center;
+
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease,
+    border-color 0.2s ease;
+}
+
+/* HOVER SÓ EM DESKTOP */
+@media (hover: hover) and (pointer: fine) {
+  button:hover,
+  input[type="date"]:hover,
+  input[type="time"]:hover,
+  input[type="month"]:hover,
+  select:hover,
+  #mesCelebracao:hover {
+    transform: translateY(-2px);
+    opacity: 1;
+    border-color: var(--cor-tema);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* CLIQUE */
+button:active,
+input[type="date"]:active,
+input[type="time"]:active,
+input[type="month"]:active,
+select:active,
+#mesCelebracao:active {
+  transform: scale(0.98);
+}
+
+/* REMOVE FOCO FEIO */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--cor-tema);
+  outline-offset: 3px;
+}
+
+/* CAMPOS DE TEXTO NÃO DEVEM VIRAR MÃOZINHA */
+textarea {
+  cursor: text;
+}
+
+/* MOBILE */
+@media (max-width: 760px) {
+  button,
+  input[type="date"],
+  input[type="time"],
+  select,
+  #mesCelebracao {
+    min-height: 60px;
+    font-size: 1rem;
+  }
+}
+.resumo-celebracao {
+  width: 100%;
+  margin-bottom: 16px;
+  padding: 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.18);
+  text-align: left;
+}
+
+.linha-resumo {
+  margin-bottom: 6px;
+  font-size: 1rem;
+}
+
+.linha-resumo:last-child {
+  margin-bottom: 0;
+}
+
+.acao-exportacao {
+  position: relative;
+  flex: 1;
+  min-width: 180px;
+}
+
+.menu-exportacao {
+  display: none;
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  padding: 10px;
+  border: 2px solid var(--cor-borda);
+  border-radius: 14px;
+  background: var(--cor-painel);
+  box-shadow: 0 0 14px var(--sombra-tema);
+  gap: 8px;
+}
+
+.menu-exportacao.ativo {
+  display: grid;
+}
+
+.menu-exportacao button {
+  margin-top: 0;
+}
+
+/* TEXTO GLOBAL DA APLICAÇÃO (SEM QUEBRAR COMPONENTES) */
+
+body:not(.tema-branco) .painel,
+body:not(.tema-branco) .card-inicial,
+body:not(.tema-branco) .resumo-celebracao,
+body:not(.tema-branco) #resultado,
+body:not(.tema-branco) #infoLiturgia,
+body:not(.tema-branco) #infoCor,
+body:not(.tema-branco) #infoSignificado {
+  color: #ffffff;
+}
+
+body.tema-branco .painel,
+body.tema-branco .card-inicial,
+body.tema-branco .resumo-celebracao,
+body.tema-branco #resultado,
+body.tema-branco #infoLiturgia,
+body.tema-branco #infoCor,
+body.tema-branco #infoSignificado {
+  color: #1f2933;
+}
+
+/* AJUSTE FINAL - CORES DOS TEXTOS POR TEMA */
+
+/* Temas coloridos: letras brancas */
+body:not(.tema-branco) input,
+body:not(.tema-branco) textarea,
+body:not(.tema-branco) select,
+body:not(.tema-branco) .resumo-celebracao,
+body:not(.tema-branco) .linha-resumo,
+body:not(.tema-branco) .dia-escala,
+body:not(.tema-branco) .cabecalho-dia-escala,
+body:not(.tema-branco) .liturgia-dia-escala,
+body:not(.tema-branco) .pastoral-escala,
+body:not(.tema-branco) .tabela-escala,
+body:not(.tema-branco) .tabela-escala th,
+body:not(.tema-branco) .tabela-escala td {
+  color: #ffffff;
+}
+
+/* Tema branco: letras escuras */
+body.tema-branco input,
+body.tema-branco textarea,
+body.tema-branco select,
+body.tema-branco .resumo-celebracao,
+body.tema-branco .linha-resumo,
+body.tema-branco .dia-escala,
+body.tema-branco .cabecalho-dia-escala,
+body.tema-branco .liturgia-dia-escala,
+body.tema-branco .pastoral-escala,
+body.tema-branco .tabela-escala,
+body.tema-branco .tabela-escala th,
+body.tema-branco .tabela-escala td {
+  color: #1f2933;
+}
+
+/* Opções internas do select */
+select option {
+  color: #1f2933;
+  background-color: #ffffff;
+}
+
+/* Tema branco: melhora borda da tabela */
+body.tema-branco .tabela-escala th,
+body.tema-branco .tabela-escala td,
+.cor-escala-branco .tabela-escala th,
+.cor-escala-branco .tabela-escala td,
+.cor-escala-sem-cor .tabela-escala th,
+.cor-escala-sem-cor .tabela-escala td {
+  border-color: rgba(0, 0, 0, 0.25);
+}
+
+/* Tema branco: cabeçalho da tabela mais suave */
+body.tema-branco .tabela-escala th,
+.cor-escala-branco .tabela-escala th,
+.cor-escala-sem-cor .tabela-escala th {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+/* Melhora visual geral da tabela */
+.tabela-escala {
+  font-weight: 600;
+}
+
+.tabela-escala th {
+  font-weight: 800;
+}
+
+.tabela-escala td {
+  font-weight: 600;
+}
+
+/* melhora contraste dentro dos blocos da escala */
+.dia-escala {
+  backdrop-filter: blur(6px);
+}
+
+/* linhas da tabela mais elegantes */
+.tabela-escala tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* no tema branco */
+body.tema-branco .tabela-escala tr:nth-child(even) {
+  background: rgba(0, 0, 0, 0.04);
+}
+/* Letras brancas nas escalas com fundo colorido/escuro */
+.cor-escala-verde,
+.cor-escala-verde *,
+.cor-escala-vermelho,
+.cor-escala-vermelho *,
+.cor-escala-rosa,
+.cor-escala-rosa *,
+.cor-escala-dourado,
+.cor-escala-dourado *,
+.cor-escala-preto,
+.cor-escala-preto * {
+  color: #ffffff;
+}
+/* PADRÃO FINAL - TEXTO DA ESCALA POR COR LITÚRGICA */
+
+.cor-escala-verde,
+.cor-escala-verde *,
+.cor-escala-vermelho,
+.cor-escala-vermelho *,
+.cor-escala-rosa,
+.cor-escala-rosa *,
+.cor-escala-dourado,
+.cor-escala-dourado *,
+.cor-escala-preto,
+.cor-escala-preto *,
+.cor-escala-roxo,
+.cor-escala-roxo * {
+  color: #ffffff !important;
+}
+
+.cor-escala-branco,
+.cor-escala-branco *,
+.cor-escala-sem-cor,
+.cor-escala-sem-cor * {
+  color: #1f2933 !important;
+}
+/* TABELA MAIS SUAVE DENTRO DA ESCALA COLORIDA */
+
+.cor-escala-verde .tabela-escala th,
+.cor-escala-verde .tabela-escala td,
+.cor-escala-vermelho .tabela-escala th,
+.cor-escala-vermelho .tabela-escala td,
+.cor-escala-rosa .tabela-escala th,
+.cor-escala-rosa .tabela-escala td,
+.cor-escala-dourado .tabela-escala th,
+.cor-escala-dourado .tabela-escala td,
+.cor-escala-preto .tabela-escala th,
+.cor-escala-preto .tabela-escala td,
+.cor-escala-roxo .tabela-escala th,
+.cor-escala-roxo .tabela-escala td {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.cor-escala-verde .tabela-escala th,
+.cor-escala-vermelho .tabela-escala th,
+.cor-escala-rosa .tabela-escala th,
+.cor-escala-dourado .tabela-escala th,
+.cor-escala-preto .tabela-escala th,
+.cor-escala-roxo .tabela-escala th {
+  background: rgba(255, 255, 255, 0.12);
+}
+/* MOBILE - MANTÉM CONTRASTE DA ESCALA GERADA */
+@media (max-width: 760px) {
+  .cor-escala-verde,
+  .cor-escala-verde *,
+  .cor-escala-vermelho,
+  .cor-escala-vermelho *,
+  .cor-escala-rosa,
+  .cor-escala-rosa *,
+  .cor-escala-dourado,
+  .cor-escala-dourado *,
+  .cor-escala-preto,
+  .cor-escala-preto *,
+  .cor-escala-roxo,
+  .cor-escala-roxo * {
+    color: #ffffff !important;
+  }
+
+  .cor-escala-branco,
+  .cor-escala-branco *,
+  .cor-escala-sem-cor,
+  .cor-escala-sem-cor * {
+    color: #1f2933 !important;
+  }
+
+  .cor-escala-verde .tabela-escala th,
+  .cor-escala-verde .tabela-escala td,
+  .cor-escala-vermelho .tabela-escala th,
+  .cor-escala-vermelho .tabela-escala td,
+  .cor-escala-rosa .tabela-escala th,
+  .cor-escala-rosa .tabela-escala td,
+  .cor-escala-dourado .tabela-escala th,
+  .cor-escala-dourado .tabela-escala td,
+  .cor-escala-preto .tabela-escala th,
+  .cor-escala-preto .tabela-escala td,
+  .cor-escala-roxo .tabela-escala th,
+  .cor-escala-roxo .tabela-escala td {
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+
+  .cor-escala-verde .tabela-escala th,
+  .cor-escala-vermelho .tabela-escala th,
+  .cor-escala-rosa .tabela-escala th,
+  .cor-escala-dourado .tabela-escala th,
+  .cor-escala-preto .tabela-escala th,
+  .cor-escala-roxo .tabela-escala th {
+    background: rgba(255, 255, 255, 0.12);
+  }
+}
+
+/* AJUSTE FINAL - LEGIBILIDADE DOS CAMPOS E BOTÕES DA TELA 2 */
+
+/* Temas coloridos: textos brancos */
+body:not(.tema-branco) #telaConfiguracao input,
+body:not(.tema-branco) #telaConfiguracao select,
+body:not(.tema-branco) #telaConfiguracao button,
+body:not(.tema-branco) #dataCelebracao,
+body:not(.tema-branco) #horaCelebracao,
+body:not(.tema-branco) #btnCerimoniarios,
+body:not(.tema-branco) #btnCoroinhas {
+  color: #ffffff;
+}
+
+/* Placeholder fake/mobile da data também branco */
+body:not(.tema-branco) #dataCelebracao.vazio::before,
+body:not(.tema-branco) #mesCelebracao.vazio::before,
+body:not(.tema-branco) #horaCelebracao.vazio::before {
+  color: #ffffff;
+}
+
+/* Placeholder nativo do campo date em navegadores WebKit */
+body:not(.tema-branco) #dataCelebracao::-webkit-datetime-edit {
+  color: #ffffff;
+}
+
+/* Select vazio: --:-- e Selecione brancos */
+body:not(.tema-branco) #horaCelebracao:invalid,
+body:not(.tema-branco) #localCelebracao:invalid {
+  color: #ffffff;
+}
+
+/* Tema branco: textos escuros */
+body.tema-branco #telaConfiguracao input,
+body.tema-branco #telaConfiguracao select,
+body.tema-branco #telaConfiguracao button,
+body.tema-branco #dataCelebracao.vazio::before,
+body.tema-branco #mesCelebracao.vazio::before,
+body.tema-branco #horaCelebracao.vazio::before,
+body.tema-branco #dataCelebracao::-webkit-datetime-edit {
+  color: #1f2933;
+}
+
+/* Opções abertas do select continuam legíveis */
+#telaConfiguracao select option {
+  color: #1f2933;
+  background: #ffffff;
+}
+
+body.tema-verde,
+body.tema-vermelho,
+body.tema-rosa,
+body.tema-preto,
+body.tema-dourado,
+body.tema-roxo {
+  --cor-botao-texto: #ffffff;
+}
+
+body.tema-branco {
+  --cor-botao-texto: #1f2933;
+}
+
+/* PADRÃO GLOBAL DE TEXTO */
+body {
+  --cor-botao-texto: #ffffff;
+  color: #ffffff;
+}
+
+/* EXCEÇÃO: TEMA BRANCO */
+body.tema-branco {
+  --cor-botao-texto: #1f2933;
+  color: #1f2933;
+}
+
+body {
+  --cor-botao-texto: #ffffff;
+  color: #ffffff;
+}
+
+body.tema-branco {
+  --cor-botao-texto: #1f2933;
+  color: #1f2933;
+}
+
+/* PLACEHOLDER DO CAMPO MÊS - DESKTOP E MOBILE */
+/* PLACEHOLDER DO CAMPO MÊS - CHROME */
+#mesCelebracao {
+  position: relative;
+  overflow: hidden;
+}
+
+#mesCelebracao.vazio {
+  color: transparent;
+}
+
+#mesCelebracao.vazio::-webkit-datetime-edit,
+#mesCelebracao.vazio::-webkit-datetime-edit-fields-wrapper,
+#mesCelebracao.vazio::-webkit-datetime-edit-year-field,
+#mesCelebracao.vazio::-webkit-datetime-edit-month-field,
+#mesCelebracao.vazio::-webkit-datetime-edit-text {
+  color: transparent;
+}
+
+#mesCelebracao.vazio::before {
+  content: attr(data-placeholder);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cor-botao-texto);
+  pointer-events: none;
+}
+
+#mesCelebracao:not(.vazio),
+#mesCelebracao:not(.vazio)::-webkit-datetime-edit {
+  color: var(--cor-botao-texto);
+}
+
+.oculto {
+  display: none !important;
+}
+
+#mesCelebracao {
+  cursor: pointer;
+}
+
+.campo-mes-container {
+  position: relative;
+}
+
+.menu-mes {
+  display: none;
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  padding: 10px;
+  border: 2px solid var(--cor-borda);
+  border-radius: 14px;
+  background: var(--cor-painel);
+  box-shadow: 0 0 14px var(--sombra-tema);
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.menu-mes.ativo {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.menu-mes button {
+  margin-top: 0;
+  min-width: 0;
+}
+
+.painel-sorteio-funcoes {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.area-nomes-sorteio .botoes-acao {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.area-nomes-sorteio #btnSortear,
+.area-nomes-sorteio .acao-exportacao {
+  width: 100%;
+}
+
+.area-nomes-sorteio .acao-exportacao {
+  margin-top: 12px;
+}
+
+.area-nomes-sorteio,
+.area-funcoes-sorteio {
+  min-width: 0;
+}
+
+.area-nomes-sorteio textarea {
+  width: 100%;
+  max-width: 100%;
+}
+
+.area-funcoes-sorteio {
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.area-funcoes-sorteio h2 {
+  margin-bottom: 10px;
+}
+
+.area-funcoes-sorteio #funcoes {
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  .painel-sorteio-funcoes {
+    grid-template-columns: 1fr;
+  }
+
+  .area-funcoes-sorteio {
+    padding: 12px;
+  }
+}
+
+#resultado {
+  border-radius: 14px;
+  padding: 14px;
+
+  background: color-mix(in srgb, var(--cor-botao) 50%, transparent);
+
+  border: 2px solid color-mix(in srgb, var(--cor-borda) 90%, transparent);
+
+  box-shadow: 0 0 32px var(--sombra-tema);
+
+  overflow: hidden;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+#resultado ol,
+#resultado ul {
+  margin: 0;
+  padding-left: 22px;
+}
+
+#resultado li {
+  margin-bottom: 10px;
+}
+
+#resultado li:last-child {
+  margin-bottom: 0;
+}

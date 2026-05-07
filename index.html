@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SANTO SERVIÇO</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="tema-verde">
+    <div class="app">
+      <!-- TELA 1 -->
+      <section id="telaInicial" class="tela ativa">
+        <div class="badge-beta">
+          <span>Nossa Senhora das Dores</span><br />
+          <span>e São Judas Tadeu</span><br />
+        </div>
+        <div class="card-inicial">
+          <h1>
+            Boas Vindas <br />
+            ao <br />
+            Santo Serviço
+          </h1>
+
+          <p class="subtexto">
+            Organize as escalas de serviço de cerimoniários e coroinhas de forma
+            simples e rápida.
+          </p>
+          <button id="btnIniciar">INICIAR</button>
+        </div>
+      </section>
+
+      <!-- TELA 2 -->
+      <section id="telaConfiguracao" class="tela">
+        <div class="container">
+          <div class="painel topo">
+            <div class="grupo-campo">
+              <h2>Modo de escala</h2>
+              <select id="modoEscalaMensal">
+                <option value="livre">Missa específica</option>
+                <option value="automatico">Escala mensal</option>
+              </select>
+            </div>
+            <div class="grupo-campo">
+              <h2>Data da Celebração</h2>
+              <input
+                type="date"
+                id="dataCelebracao"
+                data-placeholder="dd/mm/aaaa"
+              />
+              <input
+                type="month"
+                id="mesCelebracao"
+                class="oculto"
+                data-placeholder="aaaa/mm"
+              />
+            </div>
+            <p id="infoLiturgia">Selecione uma Data Litúrgica.</p>
+            <p id="infoCor">Cor litúrgica: --</p>
+            <p id="infoSignificado">Significado: --</p>
+
+            <div class="grupo-campo">
+              <h2>Local da Celebração</h2>
+              <select id="localCelebracao">
+                <option value="" disabled selected>Selecione</option>
+                <option value="matriz">Matriz</option>
+                <option value="capela">Capela</option>
+              </select>
+            </div>
+
+            <div class="grupo-campo">
+              <h2>Hora da Celebração</h2>
+              <select id="horaCelebracao">
+                <option value="" disabled selected>--:--</option>
+              </select>
+            </div>
+
+            <div class="grupo-campo">
+              <h2>O BISPO está presente?</h2>
+              <select id="missaComBispo">
+                <option value="nao" selected>Não</option>
+                <option value="sim">Sim</option>
+              </select>
+            </div>
+
+            <br />
+            <h2>PASTORAIS</h2>
+            <div class="botoes-grupo">
+              <button id="btnCerimoniarios" class="ativo">CERIMONIÁRIOS</button>
+              <button id="btnCoroinhas">COROINHAS</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TELA 3 -->
+      <section id="telaSorteio" class="tela">
+        <div class="container">
+          <div class="painel topo">
+            <h2>Seleção</h2>
+            <p id="resumoData">Data: --</p>
+            <p id="resumoLocal">Local: --</p>
+            <p id="resumoHora">Hora: --</p>
+            <p id="resumoTipoMissa">Tipo de missa: --</p>
+            <p id="resumoBispo">Com bispo: --</p>
+            <p id="resumoClasse">Pastoral: --</p>
+          </div>
+
+          <div class="painel painel-sorteio-funcoes">
+            <div class="area-nomes-sorteio">
+              <h2>Nomes:</h2>
+
+              <textarea
+                id="nomes"
+                placeholder="Digite um nome e pressione ENTER"
+              ></textarea>
+
+              <button id="btnVoltarConfig" class="btn-voltar-topo">⬅</button>
+
+              <div class="botoes-acao">
+                <button id="btnSortear">SORTEAR</button>
+
+                <div class="acao-exportacao">
+                  <button id="btnGerarEscalaMensal" type="button">
+                    GERAR ESCALA MENSAL
+                  </button>
+
+                  <div id="menuExportacao" class="menu-exportacao">
+                    <button id="btnExportarPdf" type="button">PDF</button>
+                    <button id="btnExportarImagem" type="button">IMG</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="area-funcoes-sorteio">
+              <h2>Funções</h2>
+              <ul id="funcoes"></ul>
+            </div>
+          </div>
+
+          <div class="painel">
+            <h2>Resultado</h2>
+
+            <div id="resumoCelebracao" class="resumo-celebracao"></div>
+
+            <div id="resultado">Nenhum sorteio realizado ainda.</div>
+          </div>
+          <div id="painelEscalaMensal" class="painel">
+            <h2>Escala mensal</h2>
+
+            <div id="escalaMensal" class="escala-mensal"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
