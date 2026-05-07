@@ -62,12 +62,18 @@ O sistema altera automaticamente a identidade visual conforme a liturgia:
 ## Coroinhas
 Funções automáticas:
 
-- Cruz
-- Velas
-- Turíbulo
-- Naveta
-- Mitra
-- Báculo
+Aspersório
+Carrilhão
+Cruz
+Naveta
+Ofertório
+Patena
+Purificatório
+Vela
+Missal
+Móvel
+Ofertório
+Turíbulo
 
 ---
 
@@ -76,6 +82,8 @@ Funções automáticas:
 
 - Missal
 - Turíbulo
+- Móvel
+- Ofertório
 - Móvel do Bispo
 - Missal do Bispo
 
