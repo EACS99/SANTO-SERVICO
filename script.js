@@ -12,6 +12,7 @@ const botaoVoltarParaConfiguracao = document.getElementById("btnVoltarConfig")
 const botaoSelecionarCerimoniarios = document.getElementById("btnCerimoniarios")
 const botaoSelecionarCoroinhas = document.getElementById("btnCoroinhas")
 const botaoSortear = document.getElementById("btnSortear")
+const botaoInserirNoMes = document.getElementById("btnInserirNoMes")
 const botaoGerarEscalaMensal = document.getElementById("btnGerarEscalaMensal")
 const campoModoEscalaMensal = document.getElementById("modoEscalaMensal")
 const menuExportacao = document.getElementById("menuExportacao")
@@ -55,6 +56,8 @@ const PASTORAL = {
 
 let pastoralSelecionada = PASTORAL.CERIMONIARIOS
 const escalaMensal = []
+let ultimoResultadoSorteado = null
+let ultimasFuncoesSorteadas = []
 
 const diasDaSemana = [
   "Domingo",
@@ -873,6 +876,12 @@ function missaSemanalFoiDetectada(dataIso) {
   return obterTipoMissaPelaData(dataIso) === "semanal"
 }
 
+function cerimoniarioSemanalUsaSomenteMissal(pastoral, dataIso) {
+  return (
+    pastoral === PASTORAL.CERIMONIARIOS && missaSemanalFoiDetectada(dataIso)
+  )
+}
+
 function missaComBispoFoiSelecionada() {
   if (modoEscalaMensalEstaAtivo()) {
     return false
@@ -913,6 +922,11 @@ function liturgiaPermiteTuribuloENaveta(dataIso) {
 
 function obterFuncoesDaPastoralParaData(pastoral, dataIso) {
   let funcoes = [...funcoesPorPastoral[pastoral]]
+
+  // REGRA: Cerimoniários em missa semanal usam somente Missal
+  if (cerimoniarioSemanalUsaSomenteMissal(pastoral, dataIso)) {
+    return ["Missal"]
+  }
 
   // REGRA: Turíbulo/Naveta
   if (!missaPermiteTuribuloENaveta(dataIso)) {
@@ -1336,6 +1350,10 @@ function ehSegundaFeira(dataIso) {
   return criarDataPorIso(dataIso).getDay() === 1
 }
 
+function ehSextaFeira(dataIso) {
+  return criarDataPorIso(dataIso).getDay() === 5
+}
+
 function ehCelebracaoDaEscalaMensal(dataIso) {
   const celebracao = identificarCelebracaoEspecial(dataIso)
 
@@ -1351,8 +1369,18 @@ function ehCelebracaoDaEscalaMensal(dataIso) {
 
 const HORARIOS_MISSA_DOMINICAL = ["07:00", "10:00", "18:00"]
 const HORARIOS_MISSA_SEGUNDA_FEIRA = ["19:00"]
+const HORARIOS_MISSA_SEXTA_FEIRA = ["19:00"]
 
 function criarCelebracoesMensaisPorData(dataIso) {
+  // Domingo tem prioridade sobre festa, solenidade ou dia de santo
+  if (dataEhDomingo(dataIso)) {
+    return HORARIOS_MISSA_DOMINICAL.map((hora) => ({
+      dataIso,
+      hora,
+    }))
+  }
+
+  // Celebração especial durante a semana
   if (ehCelebracaoDaEscalaMensal(dataIso)) {
     return [
       {
@@ -1362,12 +1390,20 @@ function criarCelebracoesMensaisPorData(dataIso) {
     ]
   }
 
-  if (dataEhDomingo(dataIso)) {
-    return HORARIOS_MISSA_DOMINICAL.map((hora) => ({ dataIso, hora }))
+  // Segunda-feira
+  if (ehSegundaFeira(dataIso)) {
+    return HORARIOS_MISSA_SEGUNDA_FEIRA.map((hora) => ({
+      dataIso,
+      hora,
+    }))
   }
 
-  if (ehSegundaFeira(dataIso)) {
-    return HORARIOS_MISSA_SEGUNDA_FEIRA.map((hora) => ({ dataIso, hora }))
+  // Sexta-feira
+  if (ehSextaFeira(dataIso)) {
+    return HORARIOS_MISSA_SEXTA_FEIRA.map((hora) => ({
+      dataIso,
+      hora,
+    }))
   }
 
   return []
@@ -1597,7 +1633,10 @@ function gerarEscalaMensalAutomatica() {
     return
   }
 
+  const missasPersonalizadas = escalaMensal.filter((item) => item.personalizada)
+
   escalaMensal.length = 0
+  escalaMensal.push(...missasPersonalizadas)
 
   const celebracoesDaEscala = obterCelebracoesParaEscalaMensal(dataBase)
   const controleMensal = criarControleMensalDeFuncoes(nomesParticipantes)
@@ -1659,6 +1698,9 @@ function exibirNomesForaDaEscala(nomesParticipantes, escalaGerada) {
 // -------------------------------
 
 function exibirResultado(resultado, funcoes) {
+  ultimoResultadoSorteado = resultado
+  ultimasFuncoesSorteadas = funcoes
+
   resumoCelebracao.innerHTML = criarHtmlResumoCelebracao()
   areaResultadoSorteio.innerHTML = criarHtmlDoResultado(resultado, funcoes)
 }
@@ -1716,6 +1758,50 @@ function registrarSorteioNaEscalaMensal(resultado) {
   gerarEscalaMensalNaTela()
 }
 
+function inserirMissaEspecificaNoMes() {
+  if (modoEscalaMensalEstaAtivo()) {
+    alert("Essa opção só funciona em Missa específica.")
+    return
+  }
+
+  const dataIso = campoDataCelebracao.value
+
+  if (!dataIso) {
+    alert("Selecione a data da celebração.")
+    return
+  }
+
+  if (!campoHoraCelebracao.value) {
+    alert("Selecione a hora da celebração.")
+    return
+  }
+
+  if (!ultimoResultadoSorteado) {
+    alert("Faça o sorteio antes de inserir no mês.")
+    return
+  }
+
+  const liturgia = identificarLiturgiaPorData(dataIso)
+
+  const item = {
+    dataIso,
+    data: formatarDataParaExibicao(dataIso),
+    diaSemana: obterDiaDaSemana(dataIso),
+    hora: formatarHoraParaEscala(campoHoraCelebracao.value),
+    local: nomePorLocal[campoLocalCelebracao.value] || "--",
+    pastoral: pastoralPorNome[pastoralSelecionada],
+    cor: liturgia.cor,
+    liturgia: liturgia.tempo,
+    resultado: { ...ultimoResultadoSorteado },
+    personalizada: true,
+  }
+
+  escalaMensal.push(item)
+  gerarEscalaMensalNaTela()
+
+  alert("Missa personalizada inserida na escala mensal.")
+}
+
 function gerarEscalaMensalNaTela() {
   if (escalaMensal.length === 0) {
     areaEscalaMensal.textContent = "Nenhuma escala mensal gerada ainda."
@@ -1737,7 +1823,7 @@ function agruparEscalaPorDia(escala) {
   })
 
   return escalaOrdenada.reduce((dias, item) => {
-    const chaveDoDia = `${item.dataIso}-${item.hora}-${item.local}`
+    const chaveDoDia = `${item.dataIso}-${item.local}`
 
     let dia = dias.find((diaAtual) => diaAtual.chave === chaveDoDia)
 
@@ -1786,7 +1872,7 @@ function criarHtmlDoDiaDaEscala(dia) {
 function criarHtmlDaPastoralNoDia(item) {
   return `
     <section class="pastoral-escala">
-      <h3>${item.pastoral}</h3>
+      <h3>${item.hora} - ${item.pastoral}</h3>
 
       <table class="tabela-escala">
         <thead>
@@ -1804,17 +1890,27 @@ function criarHtmlDaPastoralNoDia(item) {
   `
 }
 
-function criarLinhaDaFuncao([funcao, nomes]) {
+function criarCampoNomeEditavel(nomes) {
   const nomesFormatados = Array.isArray(nomes)
     ? nomes.length > 0
       ? nomes.join(", ")
-      : "—"
-    : nomes || "—"
+      : ""
+    : nomes || ""
 
+  return `
+    <input
+      type="text"
+      class="campo-nome-editavel"
+      value="${nomesFormatados}"
+    />
+  `
+}
+
+function criarLinhaDaFuncao([funcao, nomes]) {
   return `
     <tr>
       <td>${funcao}</td>
-      <td>${nomesFormatados}</td>
+      <td>${criarCampoNomeEditavel(nomes)}</td>
     </tr>
   `
 }
@@ -1826,7 +1922,12 @@ function criarHtmlDoResultado(resultado, funcoes) {
     const valor = resultado[funcao] || "—"
     const nomes = Array.isArray(valor) ? valor.join(", ") : valor
 
-    html += `<li><strong>${funcao}:</strong> ${nomes}</li>`
+    html += `
+  <li>
+    <strong>${funcao}:</strong>
+    ${criarCampoNomeEditavel(nomes)}
+  </li>
+`
   })
 
   html += "</ol>"
@@ -1899,6 +2000,7 @@ function atualizarInterfaceDoModoDeEscala() {
 
   botaoSortear.classList.toggle("oculto", escalaMensalAtiva)
   botaoGerarEscalaMensal.classList.toggle("oculto", !escalaMensalAtiva)
+  botaoInserirNoMes.classList.toggle("oculto", escalaMensalAtiva)
 
   campoHoraCelebracao
     .closest(".grupo-campo")
@@ -2066,17 +2168,22 @@ botaoGerarEscalaMensal.addEventListener("click", () => {
 
   menuExportacao.classList.toggle("ativo")
 })
-
+botaoInserirNoMes.addEventListener("click", inserirMissaEspecificaNoMes)
 botaoExportarImagem.addEventListener("click", exportarEscalaMensalComoImagem)
 botaoExportarPdf.addEventListener("click", exportarEscalaMensalComoPdf)
 
 document.addEventListener("click", (event) => {
   const clicouDentroDoMenu = menuExportacao.contains(event.target)
   const clicouNoBotaoGerar = botaoGerarEscalaMensal.contains(event.target)
+  const clicouEmCampoEditavel = event.target.classList.contains(
+    "campo-nome-editavel",
+  )
 
-  if (!clicouDentroDoMenu && !clicouNoBotaoGerar) {
-    menuExportacao.classList.remove("ativo")
+  if (clicouDentroDoMenu || clicouNoBotaoGerar || clicouEmCampoEditavel) {
+    return
   }
+
+  menuExportacao.classList.remove("ativo")
 })
 
 function gerarOpcoesDeHora() {

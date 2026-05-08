@@ -1271,3 +1271,31 @@ body.tema-branco {
 #resultado li:last-child {
   margin-bottom: 0;
 }
+
+.campo-nome-editavel {
+  width: 100%;
+  min-height: auto;
+  margin: 0;
+  padding: 4px 6px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+  cursor: text;
+}
+
+.campo-nome-editavel:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+#resultado .campo-nome-editavel {
+  display: inline-block;
+  width: auto;
+  min-width: 180px;
+}
